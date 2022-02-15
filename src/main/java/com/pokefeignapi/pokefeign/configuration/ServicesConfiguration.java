@@ -5,6 +5,7 @@ import com.pokefeignapi.pokefeign.service.MonsterService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -14,12 +15,11 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Configuration
-@RequiredArgsConstructor
 public class ServicesConfiguration {
 
 
     @Bean
-    public Map<MonsterType, MonsterService> getServicies( List<MonsterService> monsterServiceList) {
+    public Map<MonsterType, MonsterService> getServicies(List<MonsterService> monsterServiceList) {
 
       /*  Map<MonsterType, MonsterService> m = new HashMap<>();
         for (MonsterService ms : monsterServiceList) {
@@ -31,15 +31,5 @@ public class ServicesConfiguration {
     }
 
 
-    public List monsterServiceList(){
-        Class<MonsterService> monsterServiceClass = MonsterService.class;
-        Method[] m = monsterServiceClass.getMethods();
-        return Arrays.stream(m).collect(Collectors.toList());
-    }
-
-    @Bean
-    public Map<MonsterType, MonsterService> coso(){
-       return getServicies(monsterServiceList());
-    }
 
 }
