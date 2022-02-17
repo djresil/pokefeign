@@ -1,7 +1,10 @@
 package com.pokefeignapi.pokefeign.configuration;
 
 import com.pokefeignapi.pokefeign.enums.MonsterType;
+import com.pokefeignapi.pokefeign.exception.CustomErrorDecoder;
 import com.pokefeignapi.pokefeign.service.MonsterService;
+import feign.codec.DecodeException;
+import feign.codec.ErrorDecoder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,6 +33,9 @@ public class ServicesConfiguration {
         return monsterServiceList.stream().collect(Collectors.toMap(MonsterService::getMonsterType, Function.identity()));
     }
 
-
+    @Bean
+    public ErrorDecoder errorDecoder(){
+        return new CustomErrorDecoder();
+    }
 
 }
