@@ -8,13 +8,11 @@ public class CustomErrorDecoder implements ErrorDecoder {
     @Override
     public Exception decode(String s, Response response) {
 
-        switch (response.status()){
+        switch (response.status()) {
             case 404:
                 return new NotFoundNameException();
-            case 500:
+            default:
                 return new Exception();
-
         }
-        return null;
     }
 }

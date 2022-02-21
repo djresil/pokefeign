@@ -6,6 +6,7 @@ import com.pokefeignapi.pokefeign.enums.MonsterType;
 
 import com.pokefeignapi.pokefeign.exception.NotFoundNameException;
 import com.pokefeignapi.pokefeign.model.Monster;
+import com.pokefeignapi.pokefeign.model.Pokemon;
 import com.pokefeignapi.pokefeign.service.MonsterService;
 import feign.FeignException;
 import io.swagger.v3.oas.annotations.Operation;
@@ -35,12 +36,16 @@ public class MonsterController {
 
 
     @Operation(summary = "Obtener un Monstruo por medio de su nombre y su tipo ")
-    @ApiResponses( value = {
+    @ApiResponses(   value = {
 
+            @ApiResponse(responseCode = "200", description = "Solicitud procesada con  éxito",  content = { @Content(mediaType = "application/json",
+                    schema = @Schema(hidden = true)) }),
+            @ApiResponse(responseCode = "404", description = "Nombre no encontrado", content = @Content)
 
 
     })
     @GetMapping("/{name}")
+
     public ResponseEntity<Monster> getPokemon(@PathVariable("name") String name,
                                              @RequestParam("monstertype") MonsterType monsterType) throws NotFoundNameException {
 

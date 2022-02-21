@@ -3,6 +3,7 @@ package com.pokefeignapi.pokefeign.service;
 
 import com.pokefeignapi.pokefeign.configuration.ServicesConfiguration;
 import com.pokefeignapi.pokefeign.enums.MonsterType;
+import com.pokefeignapi.pokefeign.exception.NotFoundNameException;
 import com.pokefeignapi.pokefeign.model.Digimon;
 import com.pokefeignapi.pokefeign.model.Monster;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +21,7 @@ public class DigimonService implements MonsterService <Digimon> {
 
 
     @Override
-    public Digimon findByName(String name) {
+    public Digimon findByName(String name)throws  NotFoundNameException{
         Digimon digimon = new Digimon("agumon", 1, 1, 10);
         Digimon digimon2 = new Digimon("angemon", 2, 3, 20);
         List<Digimon> digimonList = new ArrayList<>();
@@ -28,8 +29,11 @@ public class DigimonService implements MonsterService <Digimon> {
         digimonList.add(digimon2);
 
         Map<String, Digimon> digimap = digimonList.stream().collect(Collectors.toMap(Digimon::getName, Function.identity()));
-
-        return digimap.get(name);
+        Digimon digif= digimap.get(name);
+        if (digif == null) {
+        throw new NotFoundNameException();
+        }else
+            return digif;
     }
 
     @Override
