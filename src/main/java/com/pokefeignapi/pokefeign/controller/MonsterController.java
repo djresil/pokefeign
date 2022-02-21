@@ -4,6 +4,7 @@ package com.pokefeignapi.pokefeign.controller;
 import com.pokefeignapi.pokefeign.enums.MonsterType;
 
 
+import com.pokefeignapi.pokefeign.exception.ApiError;
 import com.pokefeignapi.pokefeign.exception.NotFoundNameException;
 import com.pokefeignapi.pokefeign.model.Monster;
 import com.pokefeignapi.pokefeign.model.Pokemon;
@@ -31,27 +32,25 @@ import java.util.Map;
 public class MonsterController {
 
 
-
     private final Map<MonsterType, MonsterService> service;
 
 
     @Operation(summary = "Obtener un Monstruo por medio de su nombre y su tipo ")
-    @ApiResponses(   value = {
+    @ApiResponses(value = {
 
-            @ApiResponse(responseCode = "200", description = "Solicitud procesada con  éxito",  content = { @Content(mediaType = "application/json",
-                    schema = @Schema(hidden = true)) }),
-            @ApiResponse(responseCode = "404", description = "Nombre no encontrado", content = @Content)
-
-
+            @ApiResponse(responseCode = "200", description = "Solicitud procesada con  éxito", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(hidden = true))}),
+            @ApiResponse(responseCode = "404", description = "Nombre no encontrado", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = ApiError.class))})
     })
     @GetMapping("/{name}")
 
     public ResponseEntity<Monster> getPokemon(@PathVariable("name") String name,
-                                             @RequestParam("monstertype") MonsterType monsterType) throws NotFoundNameException {
+                                              @RequestParam("monstertype") MonsterType monsterType) throws NotFoundNameException {
 
 
         //  return servicesConfiguration.coso().get(monsterType).findByName(name);
-        return new  ResponseEntity <Monster> ( service.get(monsterType).findByName(name), HttpStatus.OK);
+        return new ResponseEntity<Monster>(service.get(monsterType).findByName(name), HttpStatus.OK);
 
     }
 }
